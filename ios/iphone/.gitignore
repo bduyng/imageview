@@ -3,3 +3,7 @@
 
 # Ignoring build
 build/
+
+imageview-ios.xcodeproj/xcuserdata/
+imageview-ios.xcodeproj/project.pbxproj/
+imageview-ios.xcodeproj/project.xcworkspace/
