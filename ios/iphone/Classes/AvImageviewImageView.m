@@ -15,6 +15,8 @@
 #import "AvImageviewImageViewProxy.h"
 #import "AvImageviewImageView.h"
 #import <CommonCrypto/CommonDigest.h>
+#import "SDWebImage/UIImageView+WebCache.h"
+#import "FLAnimatedImageView+WebCache.h"
 
 @implementation AvImageviewImageView
 
@@ -179,7 +181,7 @@
 
     if ([args isKindOfClass:[NSNull class]])
         return;
-
+    
     [imageView sd_cancelCurrentImageLoad];
     [animatedimageView sd_cancelCurrentAnimationImagesLoad];
     [animatedimageView sd_cancelCurrentImageLoad];
