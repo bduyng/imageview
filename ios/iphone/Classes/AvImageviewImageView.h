@@ -8,6 +8,7 @@
  */
 
 #import "TiUIView.h"
+#import "FLAnimatedImageView.h"
 #import "SDWebImage/UIImageView+WebCache.h"
 
 @interface AvImageviewImageView : TiUIView {
@@ -22,6 +23,7 @@
 
         UIViewContentMode contentMode;
         UIImageView *imageView;
+        FLAnimatedImageView *animatedimageView;
         UIActivityIndicatorView  *activityIndicator;
 
         NSString *placeholderImagePath;

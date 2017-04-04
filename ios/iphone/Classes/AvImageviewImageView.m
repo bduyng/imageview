@@ -22,6 +22,9 @@
     [super initializeState];
 
     if (self) {
+        animatedimageView = [[FLAnimatedImageView alloc] initWithFrame:[self bounds]];
+        animatedimageView.clipsToBounds = YES;
+        
         imageView = [[UIImageView alloc] initWithFrame:[self bounds]];
         imageView.clipsToBounds = YES;
 
@@ -29,7 +32,8 @@
         activityIndicator.center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         activityIndicator.hidesWhenStopped = YES;
         activityIndicator.hidden = YES;
-
+        
+        [self addSubview:animatedimageView];
         [self addSubview:imageView];
         [self addSubview:activityIndicator];
     }
@@ -51,6 +55,8 @@
 }
 
 -(void)dealloc {
+    NSLog(@"dealloc");
+    RELEASE_TO_NIL(animatedimageView);
     RELEASE_TO_NIL(imageView);
     RELEASE_TO_NIL(activityIndicator);
 
@@ -143,13 +149,16 @@
 
 -(void)fadeImage:(SDImageCacheType) cacheType {
     if (cacheType == SDImageCacheTypeNone) {
-        imageView.alpha = 0;
-
+        if (imageView != nil) imageView.alpha = 0;
+        else animatedimageView.alpha = 0;
         [UIView animateWithDuration:0.3 animations:^{
             imageView.alpha = 1;
+            if (imageView != nil) imageView.alpha = 1;
+            else animatedimageView.alpha = 1;
         }];
     } else
-        imageView.alpha = 1;
+        if (imageView != nil) imageView.alpha = 1;
+        else animatedimageView.alpha = 1;
 }
 
 #pragma mark Public setter methods
@@ -172,9 +181,12 @@
         return;
 
     [imageView sd_cancelCurrentImageLoad];
+    [animatedimageView sd_cancelCurrentAnimationImagesLoad];
+    [animatedimageView sd_cancelCurrentImageLoad];
 
     if ([args isKindOfClass:[NSString class]]) {
         NSURL *imageUrl = [NSURL URLWithString:[TiUtils stringValue:args]];
+        NSLog(@"setImage_ %@", [TiUtils stringValue:args]);
 
         if (loadingIndicator) {
             activityIndicator.hidden = NO;
@@ -186,51 +198,112 @@
             NSString *userAgent = [NSString stringWithFormat:@"%@/%@ (%@; iOS %@; Scale/%0.2f)", [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleExecutableKey] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleIdentifierKey], [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"] ?: [[[NSBundle mainBundle] infoDictionary] objectForKey:(__bridge NSString *)kCFBundleVersionKey], [[UIDevice currentDevice] model], [[UIDevice currentDevice] systemVersion], [[UIScreen mainScreen] scale]];
 
             [[SDWebImageDownloader sharedDownloader] setValue:userAgent forHTTPHeaderField:@"User-Agent"];
-
-            [imageView sd_setImageWithURL:imageUrl
-                         placeholderImage:placeholderImage
-                                completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
-                                    autoWidth = image.size.width;
-                                    autoHeight = image.size.height;
-
-                                    NSMutableDictionary *event = [[NSMutableDictionary alloc] init];
-
-                                    [event setValue:[imageUrl absoluteString] forKey:@"image"];
-                                    [event setValue:[[NSNumber alloc] initWithFloat:image.size.width]  forKey:@"width"];
-                                    [event setValue:[[NSNumber alloc] initWithFloat:image.size.height] forKey:@"height"];
-
-                                    if (error != nil) {
-                                        if (brokenLinkImage != nil)
-                                            imageView.image = brokenLinkImage;
-
-                                        [event setValue:[error localizedDescription] forKey:@"reason"];
-
-                                        if ([self.proxy _hasListeners:@"error"])
-                                            [self.proxy fireEvent:@"error" withObject:event];
-                                    } else {
-                                        if ([self.proxy _hasListeners:@"load"])
-                                            [self.proxy fireEvent:@"load" withObject:event];
+            
+            if ([[imageUrl pathExtension] isEqualToString:@"gif"]) {
+                imageView.hidden = true;
+                animatedimageView.hidden = false;
+                
+                [animatedimageView sd_setImageWithURL:imageUrl
+                             placeholderImage:placeholderImage
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                                        autoWidth = image.size.width;
+                                        autoHeight = image.size.height;
+                                        
+                                        NSMutableDictionary *event = [[NSMutableDictionary alloc] init];
+                                        
+                                        [event setValue:[imageUrl absoluteString] forKey:@"image"];
+                                        [event setValue:[[NSNumber alloc] initWithFloat:image.size.width]  forKey:@"width"];
+                                        [event setValue:[[NSNumber alloc] initWithFloat:image.size.height] forKey:@"height"];
+                                        
+                                        if (error != nil) {
+                                            if (brokenLinkImage != nil)
+                                                imageView.image = brokenLinkImage;
+                                            
+                                            [event setValue:[error localizedDescription] forKey:@"reason"];
+                                            
+                                            if ([self.proxy _hasListeners:@"error"])
+                                                [self.proxy fireEvent:@"error" withObject:event];
+                                        } else {
+                                            if ([self.proxy _hasListeners:@"load"])
+                                                [self.proxy fireEvent:@"load" withObject:event];
+                                        }
+                                        
+                                        if ([activityIndicator isAnimating])
+                                            [activityIndicator stopAnimating];
+                                        
+                                        [(TiViewProxy*)[self proxy] contentsWillChange];
+                                        
+                                        [self fadeImage:cacheType];
                                     }
-
-                                    if ([activityIndicator isAnimating])
-                                        [activityIndicator stopAnimating];
-
-                                    [(TiViewProxy*)[self proxy] contentsWillChange];
-
-                                    [self fadeImage:cacheType];
-                                }
-            ];
+                 ];
+            }
+            else {
+                imageView.hidden = false;
+                animatedimageView.hidden = true;
+                
+                [imageView sd_setImageWithURL:imageUrl
+                             placeholderImage:placeholderImage
+                                    completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *url) {
+                                        autoWidth = image.size.width;
+                                        autoHeight = image.size.height;
+                                        
+                                        NSMutableDictionary *event = [[NSMutableDictionary alloc] init];
+                                        
+                                        [event setValue:[imageUrl absoluteString] forKey:@"image"];
+                                        [event setValue:[[NSNumber alloc] initWithFloat:image.size.width]  forKey:@"width"];
+                                        [event setValue:[[NSNumber alloc] initWithFloat:image.size.height] forKey:@"height"];
+                                        
+                                        if (error != nil) {
+                                            if (brokenLinkImage != nil)
+                                                imageView.image = brokenLinkImage;
+                                            
+                                            [event setValue:[error localizedDescription] forKey:@"reason"];
+                                            
+                                            if ([self.proxy _hasListeners:@"error"])
+                                                [self.proxy fireEvent:@"error" withObject:event];
+                                        } else {
+                                            if ([self.proxy _hasListeners:@"load"])
+                                                [self.proxy fireEvent:@"load" withObject:event];
+                                        }
+                                        
+                                        if ([activityIndicator isAnimating])
+                                            [activityIndicator stopAnimating];
+                                        
+                                        [(TiViewProxy*)[self proxy] contentsWillChange];
+                                        
+                                        [self fadeImage:cacheType];
+                                    }
+                 ];
+            }
         } else {
             if ([TiUtils stringValue:args].length > 0)
-                imageView.image = [self loadLocalImage:[TiUtils stringValue:args]];
+                if ([[imageUrl pathExtension] isEqualToString:@"gif"]) {
+                    imageView.hidden = true;
+                    animatedimageView.hidden = false;
+                    animatedimageView.image = [self loadLocalImage:[TiUtils stringValue:args]];
+                }
+                else {
+                    imageView.hidden = false;
+                    animatedimageView.hidden = true;
+                    imageView.image = [self loadLocalImage:[TiUtils stringValue:args]];
+                }
 
             if (loadingIndicator)
                 [activityIndicator stopAnimating];
         }
     } else if ([args isKindOfClass:[TiBlob class]]) {
         TiBlob *blob = (TiBlob*)args;
-
-        imageView.image = [blob image];
+        
+        if ([[[blob path] pathExtension] isEqualToString:@"gif"]) {
+            imageView.hidden = true;
+            animatedimageView.hidden = false;
+            animatedimageView.image = [blob image];
+        }
+        else {
+            imageView.hidden = false;
+            animatedimageView.hidden = true;
+            imageView.image = [blob image];
+        }
     }
 }
 
@@ -254,7 +327,8 @@
 
 -(void)setClipsToBounds_:(id)clips {
     clipsToBounds = [TiUtils boolValue:clips def:NO];
-    imageView.clipsToBounds = clipsToBounds;
+    if (imageView != nil) imageView.clipsToBounds = clipsToBounds;
+    else animatedimageView.clipsToBounds = clipsToBounds;
 }
 
 -(void)setLoadingIndicator_:(id)value {
@@ -298,6 +372,9 @@
 -(void)updateContentMode {
     if (imageView != nil)
         [imageView setContentMode:[self contentModeForImageView]];
+    if (animatedimageView != nil)
+        [animatedimageView setContentMode:[self contentModeForImageView]];
+    
 }
 
 -(UIViewContentMode)contentModeForImageView {

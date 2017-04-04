@@ -64,6 +64,12 @@
 		65ECBFFF1E2E79E30025D85E /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 65ECBFDE1E2E79E30025D85E /* UIImageView+WebCache.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		65ECC0001E2E79E30025D85E /* UIView+WebCacheOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = 65ECBFDF1E2E79E30025D85E /* UIView+WebCacheOperation.h */; };
 		65ECC0011E2E79E30025D85E /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 65ECBFE01E2E79E30025D85E /* UIView+WebCacheOperation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		8F25DC7C1E939995006268FF /* FLAnimatedImageView+WebCache.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F25DC7A1E939995006268FF /* FLAnimatedImageView+WebCache.h */; };
+		8F25DC7D1E939995006268FF /* FLAnimatedImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F25DC7B1E939995006268FF /* FLAnimatedImageView+WebCache.m */; };
+		8F25DC821E9399D8006268FF /* FLAnimatedImage.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F25DC7E1E9399D8006268FF /* FLAnimatedImage.h */; };
+		8F25DC831E9399D8006268FF /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F25DC7F1E9399D8006268FF /* FLAnimatedImage.m */; };
+		8F25DC841E9399D8006268FF /* FLAnimatedImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 8F25DC801E9399D8006268FF /* FLAnimatedImageView.h */; };
+		8F25DC851E9399D8006268FF /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F25DC811E9399D8006268FF /* FLAnimatedImageView.m */; };
 		8FFF915F1E8B7C73005C17A1 /* alpha.c in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF90B91E8B7C73005C17A1 /* alpha.c */; };
 		8FFF91601E8B7C73005C17A1 /* alphai.h in Headers */ = {isa = PBXBuildFile; fileRef = 8FFF90BA1E8B7C73005C17A1 /* alphai.h */; };
 		8FFF91611E8B7C73005C17A1 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 8FFF90BB1E8B7C73005C17A1 /* buffer.c */; };
@@ -268,6 +274,12 @@
 		65ECBFDE1E2E79E30025D85E /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		65ECBFDF1E2E79E30025D85E /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		65ECBFE01E2E79E30025D85E /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		8F25DC7A1E939995006268FF /* FLAnimatedImageView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FLAnimatedImageView+WebCache.h"; sourceTree = "<group>"; };
+		8F25DC7B1E939995006268FF /* FLAnimatedImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FLAnimatedImageView+WebCache.m"; sourceTree = "<group>"; };
+		8F25DC7E1E9399D8006268FF /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		8F25DC7F1E9399D8006268FF /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		8F25DC801E9399D8006268FF /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
+		8F25DC811E9399D8006268FF /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
 		8FFF90B91E8B7C73005C17A1 /* alpha.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = alpha.c; sourceTree = "<group>"; };
 		8FFF90BA1E8B7C73005C17A1 /* alphai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = alphai.h; sourceTree = "<group>"; };
 		8FFF90BB1E8B7C73005C17A1 /* buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = buffer.c; sourceTree = "<group>"; };
@@ -476,6 +488,7 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8F25DC791E939995006268FF /* FLAnimatedImage */,
 				8FFF90B61E8B7C73005C17A1 /* libwebp */,
 				65ECBFBF1E2E79E30025D85E /* SDWebImage */,
 				24DE9E0F11C5FE74003F90F6 /* AvImageviewModuleAssets.h */,
@@ -538,6 +551,20 @@
 			);
 			name = SDWebImage;
 			path = Classes/SDWebImage;
+			sourceTree = "<group>";
+		};
+		8F25DC791E939995006268FF /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				8F25DC7E1E9399D8006268FF /* FLAnimatedImage.h */,
+				8F25DC7F1E9399D8006268FF /* FLAnimatedImage.m */,
+				8F25DC801E9399D8006268FF /* FLAnimatedImageView.h */,
+				8F25DC811E9399D8006268FF /* FLAnimatedImageView.m */,
+				8F25DC7A1E939995006268FF /* FLAnimatedImageView+WebCache.h */,
+				8F25DC7B1E939995006268FF /* FLAnimatedImageView+WebCache.m */,
+			);
+			name = FLAnimatedImage;
+			path = Classes/FLAnimatedImage;
 			sourceTree = "<group>";
 		};
 		8FFF90B61E8B7C73005C17A1 /* libwebp */ = {
@@ -791,8 +818,10 @@
 				8FFF91B31E8B7C74005C17A1 /* cost.h in Headers */,
 				8FFF919D1E8B7C74005C17A1 /* msa_macro.h in Headers */,
 				65ECBFF11E2E79E30025D85E /* SDWebImageOperation.h in Headers */,
+				8F25DC821E9399D8006268FF /* FLAnimatedImage.h in Headers */,
 				8FFF91E41E8B7C74005C17A1 /* rescaler.h in Headers */,
 				65ECBFEB1E2E79E30025D85E /* SDWebImageDownloader.h in Headers */,
+				8F25DC841E9399D8006268FF /* FLAnimatedImageView.h in Headers */,
 				65ECBFFC1E2E79E30025D85E /* UIImageView+HighlightedWebCache.h in Headers */,
 				8FFF91E91E8B7C74005C17A1 /* decode.h in Headers */,
 				8FFF91D01E8B7C74005C17A1 /* bit_reader.h in Headers */,
@@ -802,6 +831,7 @@
 				65D436411CDB4C4500EC9CC2 /* AvImageviewImageView.h in Headers */,
 				8FFF91621E8B7C73005C17A1 /* common.h in Headers */,
 				65ECBFE51E2E79E30025D85E /* SDImageCache.h in Headers */,
+				8F25DC7C1E939995006268FF /* FLAnimatedImageView+WebCache.h in Headers */,
 				8FFF91631E8B7C73005C17A1 /* decode_vp8.h in Headers */,
 				65ECBFF81E2E79E30025D85E /* UIImage+MultiFormat.h in Headers */,
 				8FFF91F01E8B7C74005C17A1 /* types.h in Headers */,
@@ -931,6 +961,7 @@
 				8FFF91B41E8B7C74005C17A1 /* delta_palettization.c in Sources */,
 				8FFF91BC1E8B7C74005C17A1 /* picture.c in Sources */,
 				65ECBFF91E2E79E30025D85E /* UIImage+MultiFormat.m in Sources */,
+				8F25DC831E9399D8006268FF /* FLAnimatedImage.m in Sources */,
 				65ECBFEE1E2E79E30025D85E /* SDWebImageDownloaderOperation.m in Sources */,
 				8FFF91DF1E8B7C74005C17A1 /* quant_levels_dec.c in Sources */,
 				8FFF91DD1E8B7C74005C17A1 /* quant_levels.c in Sources */,
@@ -969,6 +1000,7 @@
 				24DD6CFA1134B3F500162E58 /* AvImageviewModule.m in Sources */,
 				8FFF91CF1E8B7C74005C17A1 /* bit_reader.c in Sources */,
 				8FFF91E31E8B7C74005C17A1 /* rescaler.c in Sources */,
+				8F25DC7D1E939995006268FF /* FLAnimatedImageView+WebCache.m in Sources */,
 				8FFF917E1E8B7C73005C17A1 /* dec.c in Sources */,
 				8FFF91DB1E8B7C74005C17A1 /* huffman_encode.c in Sources */,
 				8FFF91611E8B7C73005C17A1 /* buffer.c in Sources */,
@@ -1021,6 +1053,7 @@
 				8FFF91AC1E8B7C74005C17A1 /* yuv_sse2.c in Sources */,
 				8FFF91971E8B7C74005C17A1 /* lossless_enc_sse2.c in Sources */,
 				8FFF91651E8B7C73005C17A1 /* idec.c in Sources */,
+				8F25DC851E9399D8006268FF /* FLAnimatedImageView.m in Sources */,
 				8FFF91CB1E8B7C74005C17A1 /* muxedit.c in Sources */,
 				8FFF91701E8B7C73005C17A1 /* demux.c in Sources */,
 				8FFF917F1E8B7C73005C17A1 /* dec_clip_tables.c in Sources */,
